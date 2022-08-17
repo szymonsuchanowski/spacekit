@@ -424,6 +424,14 @@ export class SpaceObject implements SimulationObject {
     labelElt.style.top = `${position2D.y - labelHeight - 8}px`;
     labelElt.style.left = `${position2D.x - labelHalfWidth}px`;
     labelElt.style.right = 'auto';
+
+    if (position2D.x + labelHalfWidth >= canvasWidth) {
+      labelElt.style.left = 'auto';
+      labelElt.style.right = '4px';
+    } else if (position2D.x - labelHalfWidth <= 0) {
+      labelElt.style.left = '4px';
+      labelElt.style.right = 'auto';
+    }
   }
 
   /**
