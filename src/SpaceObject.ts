@@ -396,6 +396,19 @@ export class SpaceObject implements SimulationObject {
     if (!frustum.containsPoint(newPositionVector)) {
       isObjectInFrustum = false;
     }
+
+    this.toggleLabelVisibility(isObjectInFrustum, labelElt);
+  }
+
+  private toggleLabelVisibility(
+    isObjectInFrustum: boolean,
+    labelElt: HTMLElement,
+  ) {
+    labelElt.style.visibility = 'hidden';
+
+    if (isObjectInFrustum) {
+      labelElt.style.visibility = 'visible';
+    }
   }
 
   /**
