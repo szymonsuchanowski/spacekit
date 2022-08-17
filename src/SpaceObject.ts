@@ -378,30 +378,23 @@ export class SpaceObject implements SimulationObject {
       throw new Error('Attempted to update label position without a label');
     }
 
-    const label = this._label;
-    const simulationElt = this._simulation.getSimulationElement();
-    const pos = toScreenXY(
-      newpos,
-      this._simulation.getViewer().get3jsCamera(),
-      simulationElt,
+    const labelElt = this._label;
+    const camera = this._simulation.getViewer().get3jsCamera();
+    const newPositionVector = new THREE.Vector3(
+      newpos[0],
+      newpos[1],
+      newpos[2],
     );
-    const loc = {
-      left: pos.x,
-      top: pos.y,
-      right: pos.x + label.clientWidth,
-      bottom: pos.y + label.clientHeight,
-    };
-    if (
-      loc.left - 30 > 0 &&
-      loc.right + 20 < simulationElt.clientWidth &&
-      loc.top - 25 > 0 &&
-      loc.bottom < simulationElt.clientHeight
-    ) {
-      label.style.left = `${loc.left - label.clientWidth / 2}px`;
-      label.style.top = `${loc.top - label.clientHeight - 8}px`;
-      label.style.visibility = 'visible';
-    } else {
-      label.style.visibility = 'hidden';
+    const frustum = new THREE.Frustum();
+    const matrix = new THREE.Matrix4().multiplyMatrices(
+      camera.projectionMatrix,
+      camera.matrixWorldInverse,
+    );
+    frustum.setFromProjectionMatrix(matrix);
+
+    let isObjectInFrustum = true;
+    if (!frustum.containsPoint(newPositionVector)) {
+      isObjectInFrustum = false;
     }
   }
 
