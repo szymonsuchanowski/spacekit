@@ -397,18 +397,33 @@ export class SpaceObject implements SimulationObject {
       isObjectInFrustum = false;
     }
 
-    this.toggleLabelVisibility(isObjectInFrustum, labelElt);
+    this.toggleLabelVisibility(isObjectInFrustum, newpos, labelElt);
   }
 
   private toggleLabelVisibility(
     isObjectInFrustum: boolean,
+    position: Coordinate3d,
     labelElt: HTMLElement,
   ) {
     labelElt.style.visibility = 'hidden';
 
     if (isObjectInFrustum) {
       labelElt.style.visibility = 'visible';
+      this.setLabelPosition(position, labelElt);
     }
+  }
+
+  private setLabelPosition(position: Coordinate3d, labelElt: HTMLElement) {
+    const simulationElt = this._simulation.getSimulationElement();
+    const camera = this._simulation.getViewer().get3jsCamera();
+    const position2D = toScreenXY(position, camera, simulationElt);
+    const labelHalfWidth = labelElt.clientWidth / 2;
+    const labelHeight = labelElt.clientHeight;
+    const canvasWidth = simulationElt.clientWidth;
+
+    labelElt.style.top = `${position2D.y - labelHeight - 8}px`;
+    labelElt.style.left = `${position2D.x - labelHalfWidth}px`;
+    labelElt.style.right = 'auto';
   }
 
   /**
