@@ -400,6 +400,13 @@ export class SpaceObject implements SimulationObject {
     this.toggleLabelVisibility(isObjectInFrustum, newpos, labelElt);
   }
 
+  /**
+   * @private
+   * Toggle object label visibility depending on whether the object is in camera frustum
+   * @param {boolean} isObjectInFrustum Is object visible (is object in camera frustum)
+   * @param {Array.Number} position Position of the label in the visualization's coordinate system
+   * @param {HTMLElement} labelElt A div that contains the label for object
+   */
   private toggleLabelVisibility(
     isObjectInFrustum: boolean,
     position: Coordinate3d,
@@ -413,6 +420,12 @@ export class SpaceObject implements SimulationObject {
     }
   }
 
+  /**
+   * @private
+   * Set object label position to keep it always visible if object is in camera frustum
+   * @param {Array.Number} position Position of the label in the visualization's coordinate system
+   * @param {HTMLElement} labelElt A div that contains the label for object
+   */
   private setLabelPosition(position: Coordinate3d, labelElt: HTMLElement) {
     const simulationElt = this._simulation.getSimulationElement();
     const camera = this._simulation.getViewer().get3jsCamera();
@@ -434,12 +447,12 @@ export class SpaceObject implements SimulationObject {
     }
 
     if (position2D.y - labelHeight - 8 <= 0) {
-        labelElt.style.top = "4px";
-        labelElt.style.left =
-            position2D.x + labelHalfWidth <= canvasWidth / 2
-                ? `${position2D.x + 8}px`
-                : `${position2D.x - labelHalfWidth * 2 - 8}px`;
-        labelElt.style.right = "auto";
+      labelElt.style.top = '4px';
+      labelElt.style.left =
+        position2D.x + labelHalfWidth <= canvasWidth / 2
+          ? `${position2D.x + 8}px`
+          : `${position2D.x - labelHalfWidth * 2 - 8}px`;
+      labelElt.style.right = 'auto';
     }
   }
 
