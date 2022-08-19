@@ -438,20 +438,20 @@ export class SpaceObject implements SimulationObject {
     labelElt.style.left = `${position2D.x - labelHalfWidth}px`;
     labelElt.style.right = 'auto';
 
-    if (position2D.x + labelHalfWidth >= canvasWidth) {
+    if (position2D.x + labelHalfWidth + 4 >= canvasWidth) {
       labelElt.style.left = 'auto';
       labelElt.style.right = '4px';
-    } else if (position2D.x - labelHalfWidth <= 0) {
+    } else if (position2D.x - labelHalfWidth - 4 <= 0) {
       labelElt.style.left = '4px';
       labelElt.style.right = 'auto';
     }
 
-    if (position2D.y - labelHeight - 8 <= 0) {
+    if (position2D.y - labelHeight - 12 <= 0) {
       labelElt.style.top = '4px';
       labelElt.style.left =
-        position2D.x + labelHalfWidth <= canvasWidth / 2
-          ? `${position2D.x + 8}px`
-          : `${position2D.x - labelHalfWidth * 2 - 8}px`;
+        position2D.x + labelHalfWidth * 2 + 10 <= canvasWidth
+          ? `${position2D.x + 6}px`
+          : `${position2D.x - labelHalfWidth * 2 - 6}px`;
       labelElt.style.right = 'auto';
     }
   }
